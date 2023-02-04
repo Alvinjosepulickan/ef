@@ -4,6 +4,7 @@ using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230204131706_publisherandauthortables")]
+    partial class publisherandauthortables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Book_Id"));
 
-                    b.Property<int>("BookDetails_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -68,64 +68,30 @@ namespace DataAccessLayer.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("Publisher_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int");
-
                     b.HasKey("Book_Id");
-
-                    b.HasIndex("BookDetails_Id")
-                        .IsUnique();
-
-                    b.HasIndex("Publisher_Id");
 
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.BookDetails", b =>
-                {
-                    b.Property<int>("BookDetails_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookDetails_Id"));
-
-                    b.Property<int>("NumberOfChapters")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfPages")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
-
-                    b.HasKey("BookDetails_Id");
-
-                    b.ToTable("BookDetails");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
                 {
-                    b.Property<int>("Category_Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Category_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("CategoryName");
 
-                    b.HasKey("Category_Id");
+                    b.HasKey("Id");
 
                     b.ToTable("tb_Category");
                 });
@@ -169,36 +135,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.Book", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.BookDetails", "BookDetails")
-                        .WithOne("Book")
-                        .HasForeignKey("DataAccessLayer.Models.Book", "BookDetails_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("Publisher_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BookDetails");
-
-                    b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.BookDetails", b =>
-                {
-                    b.Navigation("Book")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.Publisher", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
