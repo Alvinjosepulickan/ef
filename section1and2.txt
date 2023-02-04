@@ -1,0 +1,37 @@
+section 1
+
+
+ORM:
+	object to relational mapping
+
+create project fo web api
+create class library for business layer and data access 
+
+nuget packages
+		Microsoft.EntityFrameworkCore
+		Microsoft.EntityFrameworkCore.SqlServer
+		Microsoft.EntityFrameworkCore.Tools
+
+
+
+add connection string
+	"ConnectionStrings": {
+		"DefaultConnectionString": "Server=*;Database=Test;Trusted_Connection=True"
+	}
+
+
+
+create db context
+	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options)
+        {
+
+        }
+
+
+use connection string in program.cs
+
+	builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+
+add-migration desc
+update-database

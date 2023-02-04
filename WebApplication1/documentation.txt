@@ -1,0 +1,11 @@
+ORM:
+	object to relational mapping
+
+create web api project from controllers
+class library for business layer and data access layer
+
+nuget packages
+		Microsoft.EntityFrameworkCore
+		Microsoft.EntityFrameworkCore.SqlServer
+		Microsoft.EntityFrameworkCore.Tools
+
