@@ -1,0 +1,56 @@
+create a new migration
+
+in up method add
+
+ 	migrationBuilder.Sql(@"CREATE OR ALTER VIEW dbo.GetOnlyBookDetails
+                AS
+                SELECT  m.ISBN,m.Title,m.Price FROM dbo.Books m
+            ");
+
+            migrationBuilder.Sql(@"CREATE PROCEDURE dbo.getAllBookDetails   
+                    @bookId int
+                AS   
+
+                    SET NOCOUNT ON;  
+                    SELECT  *  FROM dbo.Books b
+	                WHERE b.Book_Id=@bookId
+                GO  
+            ");
+	
+
+in Down method
+
+	migrationBuilder.Sql("DROP VIEW dbo.GetOnlyBookDetails");
+
+        migrationBuilder.Sql("DROP PROCEDURE dbo.getAllBookDetails");
+
+
+
+create model for view and procedure
+	BookDetailsFromView.cs
+
+map view in Context
+	public DbSet<BookDetailsFromView> BookDetailsFromViews { get; set; }
+
+
+	in OnModelCreating method add
+	
+	 modelBuilder.Entity<BookDetailsFromView>().HasNoKey().ToView("GetOnlyBookDetails");
+
+
+
+calling view
+
+	var viewList=_context.BookDetailsFromViews.ToList();
+	
+	FromSQLRaw
+	FromSQLInterpolated
+	//RAW SQL
+
+            var bookRaw = _db.Books.FromSqlRaw("Select * from dbo.books").ToList();
+
+            //SQL Injection attack prone
+            int id = 2;
+            var bookTemp1 = _db.Books.FromSqlInterpolated($"Select * from dbo.books where Book_Id={id}").ToList();
+
+            var booksSproc = _db.Books.FromSqlInterpolated($" EXEC dbo.getAllBookDetails {id}").ToList();

@@ -1,0 +1,10 @@
+manage authors 
+
+var list=obj.BookAuthorsList.Select(u=>u.Author_id).ToList();
+
+not in Linq
+
+var tempList=_db.Authors.Where(x=>!list.Cotain(x.Author_Id)).ToList();
+
+
+
