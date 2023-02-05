@@ -1,0 +1,11 @@
+insert catrgories to table
+insert into tb_Category values('Cat_5');
+
+create category controller
+
+
+Bulk operation in ef core
+_context.table.AddRange(list);
+_context.table.RemoveRange(list);
+
+assignment setup author and publisher

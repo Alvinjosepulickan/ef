@@ -80,3 +80,9 @@ many to many
 
 	in Book.cs and Author.cs
         public ICollection<BookAuthor> BookAuthors { get; set; }
+
+
+
+
+
+create and update book
