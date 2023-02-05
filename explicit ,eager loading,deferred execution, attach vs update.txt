@@ -1,0 +1,21 @@
+explicit loading
+	loading relations
+	
+	loop through list of books
+	 _context.Entry(obj).Reference(u=>u.Publisher).Load();
+	
+Eager loading
+	query for one entity load related entities	
+
+	_db.Books.Include(u => u.Publisher)
+                .Include(u=>u.BookAuthors)
+		.ThenInclude(u=>u.Author).ToList();
+Deferred execution
+	queries are not executed when they are created
+	executed under the following scenarios
+		Iterated over
+		call ToDictionary, ToList, ToArray
+		when return single object Count(), FirstOrDefault(), etc
+
+Attach vs update
+	
